@@ -321,7 +321,7 @@ class TestsAWS:
                     assert not host.file('/proc/cmdline').contains(line), \
                         f'{line} must not be specified in AMIs that are not SAP'
 
-    @pytest.mark.run_on(['rhel7.9', 'rhel8.5', 'rhel8.6', 'rhel9.0', 'centos', 'fedora36'])
+    @pytest.mark.run_on(['rhel7.9', 'rhel8.6', 'rhel9.0', 'centos', 'fedora36'])
     def test_hostkey_permissions(self, host):
         """
         Check that ssh files permission set are correct.
@@ -607,14 +607,6 @@ class TestsAWS:
             # check correct number of gpg keys installed
             assert int(host.check_output('rpm -q gpg-pubkey | wc -l')) == num_of_gpg_keys, \
                 f'There should be {num_of_gpg_keys} gpg key(s) installed'
-
-    @pytest.mark.run_on(['all'])
-    def test_timezone_is_utc(self, host):
-        """
-        Check that the default timezone is set to UTC.
-        BugZilla 1187669
-        """
-        assert 'UTC' in host.check_output('date'), 'Unexpected timezone. Expected to be UTC'
 
 
 # TODO: Almost all these tests are cloud-agnostic
